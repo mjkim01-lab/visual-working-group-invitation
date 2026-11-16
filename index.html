@@ -1,0 +1,1435 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fdff7a" />
+    <meta name="description" content="웹 실험 모임에 초대합니다." />
+    <title>웹 실험 모임 초대장</title>
+
+    <style>
+      @font-face {
+        font-family: "Onul Gitnarae Web";
+        src: url("./assets/OnulGitnarae-Regular.otf") format("opentype");
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "Courier New Web";
+        src: url("./assets/Courier-New.ttf") format("truetype");
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+      }
+
+      :root {
+        --background: #fdff7a;
+        --ink: #000;
+        --ko-card-size: min(3.2vw, 3.2svh);
+        --ko-button-size: min(2.4vw, 2.4svh);
+        --paper-width: min(52.53vw, 52.53svh);
+        --paper-height: min(74.73vw, 74.73svh);
+        --courier-scale: 1.142857;
+        --courier-drop: 0.3pt;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        min-height: 100%;
+        background: var(--background);
+        color: var(--ink);
+      }
+
+      body {
+        min-height: 100svh;
+        overflow: hidden;
+        font-family: "Onul Gitnarae Web", serif;
+        font-synthesis: none;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: geometricPrecision;
+      }
+
+      button,
+      input {
+        appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0;
+      }
+
+      .mobile-experience,
+      .desktop-notice {
+        width: 100%;
+        min-height: 100svh;
+        background: var(--background);
+      }
+
+      .mobile-experience {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .screen {
+        position: absolute;
+        inset: 0;
+        min-height: 100svh;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 360ms ease, visibility 0s linear 360ms;
+      }
+
+      .screen.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 360ms ease;
+      }
+
+      .invitation-card {
+        position: absolute;
+        left: 50%;
+        width: min(55.02vw, 55.02svh);
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+
+      .form-card {
+        top: 46.37svh;
+        aspect-ratio: 619 / 416;
+      }
+
+      .thanks-card {
+        top: 48.25svh;
+        aspect-ratio: 619 / 236;
+      }
+
+      .wavy-frame {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        pointer-events: none;
+      }
+
+      .wavy-path {
+        fill: none;
+        stroke: var(--ink);
+        stroke-width: 0.75;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .card-copy {
+        margin: 0;
+        font-family: "Onul Gitnarae Web", serif;
+        font-size: var(--ko-card-size);
+        font-weight: 400;
+        line-height: 1.5;
+        letter-spacing: 0;
+        word-break: keep-all;
+      }
+
+      .prompt-copy {
+        position: absolute;
+        top: 7.9%;
+        left: 0;
+        width: 100%;
+      }
+
+      .courier {
+        position: relative;
+        top: var(--courier-drop);
+        display: inline-block;
+        font-family: "Courier New Web", "Courier New", monospace;
+        font-size: calc(1em * var(--courier-scale));
+        font-weight: 400;
+        line-height: 0;
+        letter-spacing: 0;
+      }
+
+      .name-form {
+        position: absolute;
+        inset: 0;
+      }
+
+      .name-field {
+        position: absolute;
+        top: 50.96%;
+        left: 12.92%;
+        width: 74.15%;
+        height: 22.84%;
+        border: 0.75px solid var(--ink);
+        background: transparent;
+      }
+
+      .name-field:focus-within {
+        outline: 0.75px solid var(--ink);
+        outline-offset: 2px;
+      }
+
+      .name-input,
+      .input-mirror {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0 6%;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      .name-input {
+        z-index: 2;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: transparent;
+        caret-color: var(--ink);
+        font-family: "Onul Gitnarae Web", serif;
+        font-size: var(--ko-card-size);
+        line-height: 1;
+      }
+
+      .input-mirror {
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        font-family: "Onul Gitnarae Web", serif;
+        font-size: var(--ko-card-size);
+        line-height: 1;
+      }
+
+      .submit-button {
+        position: absolute;
+        top: 80.9%;
+        left: 38.13%;
+        width: 23.75%;
+        height: 11.06%;
+        padding: 0;
+        border: 0.75px solid var(--ink);
+        background: transparent;
+        color: var(--ink);
+        font-family: "Onul Gitnarae Web", serif;
+        font-size: var(--ko-button-size);
+        font-weight: 400;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .submit-button:focus-visible {
+        outline: 0.75px solid var(--ink);
+        outline-offset: 2px;
+      }
+
+      .submit-button:active {
+        transform: translateY(1px);
+      }
+
+      .submit-label {
+        position: relative;
+        top: -0.2pt;
+      }
+
+      .name-field.is-invalid {
+        animation: field-shake 220ms ease-in-out 2;
+      }
+
+      .confirmation-copy {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--ko-card-size);
+        line-height: 1.7;
+      }
+
+      .confirmation-copy p {
+        margin: 0;
+        white-space: nowrap;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      .article-reader,
+      .letter-arrival,
+      .letter-stage {
+        position: fixed;
+        z-index: 20;
+        inset: 0;
+        background: var(--background);
+      }
+
+      .article-reader {
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .article-content {
+        width: 100%;
+        margin: 0;
+      }
+
+      .article-content--source {
+        display: none;
+      }
+
+      .article-pages {
+        width: 100%;
+        margin: 0;
+      }
+
+      .article-page-frame {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: var(--background);
+      }
+
+      .article-page {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .footnote-hotspot {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        background: transparent;
+      }
+
+      .footnote-hotspot::after {
+        position: absolute;
+        right: 0;
+        bottom: 22%;
+        left: 0;
+        border-bottom: 0.75px solid var(--ink);
+        content: "";
+      }
+
+      .footnote-hotspot:focus-visible {
+        outline: 1px solid var(--ink);
+        outline-offset: 2px;
+      }
+
+      .footnote-hotspot--notefolio {
+        top: 70.5%;
+        left: 13.4%;
+        width: 35.7%;
+        height: 9.5%;
+      }
+
+      .footnote-hotspot--sansa {
+        top: 70.5%;
+        left: 49.9%;
+        width: 41.9%;
+        height: 9.5%;
+      }
+
+      .footnote-hotspot--lounge {
+        top: 78.5%;
+        left: 51.1%;
+        width: 9%;
+        height: 9.5%;
+      }
+
+      .footnote-hotspot--lounge::after {
+        bottom: 15%;
+      }
+
+      .article-end-sentinel {
+        width: 100%;
+        height: 1px;
+      }
+
+      .letter-arrival {
+        z-index: 30;
+        display: grid;
+        place-items: center;
+        padding: max(24px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom));
+        touch-action: none;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 280ms ease, visibility 0s linear 280ms;
+      }
+
+      .letter-arrival.is-visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition: opacity 280ms ease;
+      }
+
+      .letter-arrival-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        transform: translateY(4svh) scale(0.975);
+        opacity: 0;
+      }
+
+      .letter-arrival.is-visible .letter-arrival-group {
+        animation: arrival-enter 520ms cubic-bezier(0.2, 0.8, 0.25, 1) 80ms forwards;
+      }
+
+      .arrival-card {
+        position: relative;
+        width: min(55.02vw, 55.02svh);
+        aspect-ratio: 619 / 175;
+        text-align: center;
+      }
+
+      .arrival-copy {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: "Onul Gitnarae Web", serif;
+        font-size: var(--ko-card-size);
+        line-height: 1.55;
+      }
+
+      .arrival-copy p {
+        margin: 0;
+      }
+
+      .arrival-button {
+        margin-top: min(4.6vw, 4.6svh);
+        width: min(13.06vw, 13.06svh);
+        height: min(4vw, 4svh);
+        padding: 0;
+        border: 0.75px solid var(--ink);
+        background: transparent;
+        color: var(--ink);
+        font-family: "Onul Gitnarae Web", serif;
+        font-size: var(--ko-button-size);
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .letter-stage {
+        z-index: 40;
+        overflow: hidden;
+      }
+
+      .letter-scene {
+        position: absolute;
+        z-index: 6;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        opacity: 0;
+        transition: none;
+        pointer-events: none;
+      }
+
+      .letter-scene--closed {
+        opacity: 1;
+      }
+
+      .letter-stage.is-opening .letter-scene--closed,
+      .letter-stage.is-revealed .letter-scene--closed {
+        opacity: 0;
+      }
+
+      .letter-stage.is-opening .letter-scene--opening,
+      .letter-stage.is-revealed .letter-scene--open {
+        opacity: 1;
+      }
+
+      .letter-stage.is-revealed .letter-scene--opening {
+        opacity: 0;
+      }
+
+      .letter-stage.is-contact .letter-scene--open {
+        opacity: 0;
+      }
+
+      .letter-stage.is-contact .letter-scene--contact {
+        opacity: 1;
+      }
+
+      .letter-paper-button {
+        position: absolute;
+        z-index: 7;
+        top: 15svh;
+        left: 14.8vw;
+        display: none;
+        width: 70.4vw;
+        height: 44.5svh;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .letter-stage.is-opening .letter-paper-button {
+        display: block;
+      }
+
+      .letter-paper-button:focus-visible {
+        outline: 0.75px solid var(--ink);
+        outline-offset: 3px;
+      }
+
+      .contact-link {
+        position: absolute;
+        z-index: 8;
+        top: 77.8svh;
+        display: none;
+        width: 17.2vw;
+        height: 3.1svh;
+      }
+
+      .letter-stage.is-contact .contact-link {
+        display: block;
+      }
+
+      .contact-link--email {
+        left: 28.89vw;
+      }
+
+      .contact-link--dm {
+        left: 53.96vw;
+      }
+
+      .contact-link:focus-visible {
+        outline: 0.75px solid var(--ink);
+        outline-offset: 3px;
+      }
+
+      .envelope-button {
+        position: absolute;
+        z-index: 3;
+        top: 39.2svh;
+        left: 23.2vw;
+        width: 53.6vw;
+        aspect-ratio: 600 / 378;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: transparent;
+        cursor: pointer;
+      }
+
+      .envelope-button:focus-visible,
+      .arrival-button:focus-visible {
+        outline: 0.75px solid var(--ink);
+        outline-offset: 3px;
+      }
+
+      .letter-stage.is-opening .envelope-button,
+      .letter-stage.is-revealed .envelope-button {
+        pointer-events: none;
+      }
+
+      .envelope-svg,
+      .letter-paper {
+        display: none;
+      }
+
+      .prompt-card {
+        top: 41.13svh;
+        aspect-ratio: 619 / 236;
+        transition: opacity 240ms ease;
+      }
+
+      .print-prompt-copy {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        line-height: 1.55;
+      }
+
+      .printer-slot {
+        position: absolute;
+        z-index: 1;
+        top: 56.03svh;
+        left: 50%;
+        width: min(54.13vw, 54.13svh);
+        height: 2.34svh;
+        transform: translateX(-50%);
+        background: var(--ink);
+        transition: top 360ms ease;
+      }
+
+      .paper-reveal {
+        position: absolute;
+        z-index: 2;
+        bottom: 39.66svh;
+        left: 50%;
+        width: var(--paper-width);
+        height: 0;
+        overflow: hidden;
+        transform: translateX(-50%);
+        background: #fff;
+      }
+
+      .paper-page {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: var(--paper-height);
+        background: #fff;
+      }
+
+      .print-button,
+      .action-button {
+        border: 0.75px solid var(--ink);
+        background: transparent;
+        color: var(--ink);
+        font-family: "Onul Gitnarae Web", serif;
+        font-size: var(--ko-button-size);
+        font-weight: 400;
+        line-height: 1;
+      }
+
+      .print-button {
+        position: absolute;
+        z-index: 3;
+        top: 60.84svh;
+        left: 50%;
+        width: min(13.06vw, 13.06svh);
+        height: min(4vw, 4svh);
+        padding: 0;
+        transform: translateX(-50%);
+        cursor: pointer;
+        transition: top 360ms ease, opacity 180ms ease;
+      }
+
+      .print-button:focus-visible,
+      .action-button:focus-visible {
+        outline: 0.75px solid var(--ink);
+        outline-offset: 2px;
+      }
+
+      .print-actions {
+        position: absolute;
+        z-index: 4;
+        top: 62.68svh;
+        left: 50%;
+        display: flex;
+        gap: min(7.73vw, 7.73svh);
+        transform: translateX(-50%);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 240ms ease, visibility 0s linear 240ms;
+      }
+
+      .action-button {
+        display: grid;
+        place-items: center;
+        width: min(17.33vw, 17.33svh);
+        height: min(4vw, 4svh);
+        padding: 0;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .action-label {
+        white-space: nowrap;
+      }
+
+      .print-screen.is-printing .prompt-card,
+      .print-screen.is-complete .prompt-card {
+        opacity: 0;
+      }
+
+      .print-screen.is-printing .printer-slot,
+      .print-screen.is-complete .printer-slot {
+        top: 58.13svh;
+      }
+
+      .print-screen.is-printing .print-button {
+        top: 62.68svh;
+      }
+
+      .print-screen.is-printing .paper-reveal {
+        animation: paper-feed 5.2s steps(78, end) forwards;
+      }
+
+      .print-screen.is-complete .paper-reveal {
+        height: var(--paper-height);
+      }
+
+      .print-screen.is-complete .print-button {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .print-screen.is-complete .print-actions {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition: opacity 240ms ease 120ms;
+      }
+
+      .desktop-notice {
+        display: none;
+        place-items: center;
+        padding: 48px;
+        text-align: center;
+      }
+
+      .desktop-notice p {
+        margin: 0;
+        font-size: 21px;
+        line-height: 1.5;
+      }
+
+      @keyframes field-shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        35% {
+          transform: translateX(-3px);
+        }
+        70% {
+          transform: translateX(3px);
+        }
+      }
+
+      @keyframes paper-feed {
+        from {
+          height: 0;
+        }
+        to {
+          height: var(--paper-height);
+        }
+      }
+
+      @keyframes arrival-enter {
+        from {
+          transform: translateY(4svh) scale(0.975);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(4svh) scale(1);
+          opacity: 1;
+        }
+      }
+
+      @media (min-width: 768px) and (hover: hover) and (pointer: fine),
+        (min-width: 1000px) {
+        .mobile-experience,
+        .article-reader,
+        .letter-arrival,
+        .letter-stage {
+          display: none;
+        }
+
+        .desktop-notice {
+          display: grid;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .screen {
+          transition: none;
+        }
+
+        .name-field.is-invalid {
+          animation: none;
+        }
+
+        .print-screen.is-printing .paper-reveal {
+          animation-duration: 1ms;
+          animation-timing-function: linear;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="mobile-experience" aria-label="웹 실험 모임 초대장">
+      <section class="screen is-visible" id="welcome-screen" aria-labelledby="welcome-title">
+        <div class="invitation-card form-card">
+          <svg class="wavy-frame" viewBox="0 0 619 416" preserveAspectRatio="none" aria-hidden="true">
+            <path class="wavy-path"></path>
+          </svg>
+
+          <h1 class="card-copy prompt-copy" id="welcome-title">
+            만나서 반가워요<span class="courier">.</span><br />
+            당신의 이름은<span class="courier">?</span>
+          </h1>
+
+          <form class="name-form" id="name-form" novalidate>
+            <div class="name-field" id="name-field">
+              <div class="input-mirror" id="input-mirror" aria-hidden="true"></div>
+              <input
+                class="name-input"
+                id="name-input"
+                name="name"
+                type="text"
+                inputmode="text"
+                autocomplete="name"
+                autocapitalize="words"
+                maxlength="24"
+                aria-label="이름"
+                aria-describedby="name-error"
+              />
+            </div>
+            <span id="name-error" hidden>이름을 입력해주세요.</span>
+            <button class="submit-button" type="submit"><span class="submit-label">보내기</span></button>
+          </form>
+        </div>
+      </section>
+
+      <section class="screen" id="thanks-screen" aria-label="감사 인사" aria-live="polite">
+        <div class="invitation-card thanks-card">
+          <svg class="wavy-frame" viewBox="0 0 619 236" preserveAspectRatio="none" aria-hidden="true">
+            <path class="wavy-path"></path>
+          </svg>
+
+          <div class="confirmation-copy card-copy">
+            <p><span id="submitted-name"></span>님<span class="courier">,</span></p>
+            <p>웹 <span class="courier">(Web)</span> 기획에 관심을</p>
+            <p>가져주셔서 감사합니다<span class="courier">.</span></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen print-screen" id="print-screen" aria-label="문서 출력" aria-live="polite">
+        <div class="invitation-card prompt-card">
+          <svg class="wavy-frame" viewBox="0 0 619 236" preserveAspectRatio="none" aria-hidden="true">
+            <path class="wavy-path"></path>
+          </svg>
+          <p class="card-copy print-prompt-copy">
+            <span>웹 <span class="courier">(Web)</span> 기획에 대한</span>
+            <span>자세한 설명을 보고싶다면<span class="courier">,</span></span>
+            <span>아래 버튼을 눌러주세요<span class="courier">.</span></span>
+          </p>
+        </div>
+
+        <div class="printer-slot" aria-hidden="true"></div>
+
+        <div class="paper-reveal" id="paper-reveal" aria-hidden="true">
+          <img
+            class="paper-page"
+            src="./assets/document-preview.png"
+            alt="구현의 자동화와 시각 작업의 확장 가능성 전문"
+          />
+        </div>
+
+        <button class="print-button" id="print-button" type="button">
+          <span class="submit-label">출력하기</span>
+        </button>
+
+        <nav class="print-actions" aria-label="출력된 문서 작업">
+          <button
+            class="action-button"
+            id="read-content"
+            type="button"
+          >내용 확인하기</button>
+          <a
+            class="action-button"
+            id="pdf-download"
+            href="./assets/[웹 기획] 구현의 자동화와 시각작업의 확장 가능성.pdf"
+            download="[웹 기획] 구현의 자동화와 시각작업의 확장 가능성.pdf"
+            target="_blank"
+            rel="noopener"
+          ><span class="action-label"><span class="courier">PDF</span>&nbsp;다운</span></a>
+        </nav>
+      </section>
+    </main>
+
+    <aside class="desktop-notice" aria-label="모바일 접속 안내">
+      <p>이 초대장은 휴대폰에서 열어주세요<span class="courier">.</span></p>
+    </aside>
+
+    <section class="article-reader" id="article-reader" aria-label="구현의 자동화와 시각 작업의 확장 가능성" hidden>
+      <article class="article-pages" aria-label="구현의 자동화와 시각 작업의 확장 가능성 전문">
+        <div class="article-page-frame">
+          <img class="article-page" src="./assets/article-01.png" alt="구현의 자동화와 시각 작업의 확장 가능성 1쪽" />
+        </div>
+        <div class="article-page-frame">
+          <img class="article-page" src="./assets/article-02.png" alt="구현의 자동화와 시각 작업의 확장 가능성 2쪽" loading="lazy" />
+        </div>
+        <div class="article-page-frame">
+          <img class="article-page" src="./assets/article-03.png" alt="구현의 자동화와 시각 작업의 확장 가능성 3쪽" loading="lazy" />
+        </div>
+        <div class="article-page-frame article-page-frame--last" id="article-footnotes">
+          <img class="article-page" src="./assets/article-04.png" alt="본문 마지막 문장과 각주" loading="lazy" />
+          <a
+            class="footnote-hotspot footnote-hotspot--notefolio"
+            href="https://www.instagram.com/p/De02tNREUAd/"
+            target="_blank"
+            rel="noopener"
+            aria-label="@notefolio의 웹 인터랙션 소개 게시물"
+          ></a>
+          <a
+            class="footnote-hotspot footnote-hotspot--sansa"
+            href="https://www.instagram.com/reel/De-_GLyRrtB/"
+            target="_blank"
+            rel="noopener"
+            aria-label="@metamong.dev의 온라인 절 산사"
+          ></a>
+          <a
+            class="footnote-hotspot footnote-hotspot--lounge"
+            href="https://lllounge-seoul.com/"
+            target="_blank"
+            rel="noopener"
+            aria-label="라운지 서울 공식 웹사이트"
+          ></a>
+        </div>
+        <div class="article-end-sentinel" id="article-end-sentinel" aria-hidden="true"></div>
+      </article>
+
+      <article class="article-content article-content--source" aria-hidden="true">
+        <h1 class="article-title">구현의 자동화와 시각 작업의 확장 가능성</h1>
+        <p class="article-subtitle">Visual Working Group</p>
+
+        <div class="article-body">
+          <p>
+            요즘은 <span class="courier">AI</span>를 통해 코딩하는 일이 정말 쉬워졌습니다. 예전에는 구현 방법을 몰라
+            포기했을 일들도 이제는 “마우스를 움직이면 글자가 따라오게 해줘”, “이미지가 스크롤에 따라 변하게 해줘”,
+            “이런 인터랙션을 만들어줘”라고 요청하면 코드를 빠르게 만들어볼 수 있습니다. 인스타그램에서도 ‘바이브 코딩
+            독학하기’ 같은 콘텐츠를 자주 볼 수 있습니다. 특정한 기술이나 효과를 보여준 뒤, 댓글에 정해진 표시를 남기면
+            사용한 프롬프트를 <span class="courier">DM</span>으로 보내주겠다는 게시물도 많습니다. 이전보다 훨씬 많은 사람들이
+            코딩을 쉽게 접하고, 직접 무언가를 만들어볼 수 있게 된 것 같습니다.<sup>1</sup>
+          </p>
+
+          <p>
+            다만 <span class="courier">AI</span>를 활용한 코딩이나 인터랙션 작업들을 보다 보면, 아이디어를 떠올린 뒤 곧바로
+            그것을 구현하는 데서 작업이 끝나는 경우도 많다고 느꼈습니다. “글자를 누르면 흩어진다.”, “글자를 클릭하면
+            화면의 색이 변한다.”는 아이디어가 실제로 작동하면 그것만으로 작업이 완성된 것처럼 보이기도 합니다. 같은
+            인터랙션을 사용하더라도 글자의 크기와 배치, 이미지가 움직이는 방식, 움직임의 속도와 방향, 화면 안에서 요소들이
+            서로 반응하는 규칙에 따라 결과는 크게 달라질 수 있습니다.
+          </p>
+
+          <p>
+            아이디어만 재미있는 작업에서 멈추지 않고, 실제로 봤을 때 그래픽과 움직임까지 충분히 매력적인 작업으로
+            발전시키고 싶습니다. 지금은 웹에서 사용할 수 있는 라이브러리와 코드 예제가 정말 많지만, 무엇이 있는지 직접
+            찾아보기보다 <span class="courier">AI</span>가 추천한 몇 가지 방법 안에서만 작업하게 될 때도 있습니다. 어떤 기술과
+            소스가 존재하는지 직접 찾아보고, 코드가 어떤 방식으로 작동하는지 이해한 뒤 각자의 작업에 맞게 바꿔 사용해보면
+            좋겠습니다.
+          </p>
+
+          <p>
+            완성도 높은 하나의 개인 웹 작업을 만들 수도 있고, 각자의 시각 언어를 가진 작업을 여러 개 이어서 만들 수도
+            있습니다. 사운드에 반응하는 웹을 만들 수도 있고, 출판과 웹을 엮거나 책의 구조와 조판 방식을 웹으로 가져올 수도
+            있습니다. 타이포그래피나 이미지 하나에서 시작해 작업을 발전시킬 수도 있습니다.
+          </p>
+
+          <p>
+            그래픽을 웹에서 어떻게 움직일지, 글자를 어떤 방식으로 읽거나 만지게 할지, 이미지와 인터랙션을 어떻게 연결할지
+            같이 고민해보고 싶습니다. 상업적인 작업과는 조금 거리가 있습니다. 효율적인 버튼이나 서비스 화면, 전환율 등을
+            기준으로 작업하기보다, 각자 해보고 싶었던 아이디어를 실제 작업으로 만들고 시각적인 완성도를 함께 끌어올리는 데
+            더 관심이 있습니다. 이 과정에서 서로 알고 있는 것을 자연스럽게 공유할 수 있었으면 합니다. 얼마 전 강연을 들으러
+            방문했던 하자센터의 일곱 가지 규칙 가운데 “정보 때문에 치사해지지 않을 거다.”라는 문장이 있습니다. 재미있는
+            무언가를 발견했다면 같이 공유하고, 먼저 사용해본 기술이 있다면 서로 알려주고, 모르는 것이 생기면 같이 찾아보면
+            좋겠습니다.
+          </p>
+
+          <p>
+            「라운지 서울 인공지능 시대의 인간성」 행사에서 강이룬 교수는 <span class="courier">Claude Code</span>를 만든
+            개발자에게 사람들이 “<span class="courier">Claude</span>를 잘 사용하려면 어떤 코드를 넣어야 하는지, 어떤 프롬프트를
+            사용해야 하는지”를 묻지만, 정작 개발자 본인은 <span class="courier">Claude Code</span>를 거의 기본 상태로 사용한다고
+            이야기했습니다.<sup>2</sup> 어떤 프롬프트를 사용하는지도 중요하겠지만, 같은 도구를 가지고 무엇을 만들고 싶은지에
+            따라 결과는 수없이 달라질 수 있습니다. 특정한 프롬프트를 알아내는 것만큼이나 그 도구로 무엇을 해볼지 계속
+            생각하고 직접 만들어보는 일도 중요하지 않을까 싶습니다.
+          </p>
+
+          <p>
+            웹으로 해보고 싶은 작업은 계속 있었지만, 혼자서는 자꾸 다른 일에 밀렸습니다. 학교 작업이나 다른 일정이 생기면
+            웹 작업은 쉽게 뒤로 미뤄졌고, 새로운 기술이나 소스를 따로 찾아볼 시간을 만드는 것도 쉽지 않았습니다.
+          </p>
+
+          <p>
+            그래서 혼자 시간을 내려고 하기보다, 아예 같이 작업하는 시간을 만들어보면 어떨까 생각했습니다. 각자 만들고 싶은
+            작업을 가져오고, 구현에 필요한 기술이 생기면 찾아보고, 새롭게 발견한 소스나 작업을 서로 공유하면서 실제로 계속
+            만들어보는 방식입니다.
+          </p>
+
+          <p>
+            강이룬 교수의 강연 이후 질의응답에서, <span class="courier">AI</span>에게 무엇이든 물어보고 시킬 수 있는 시대에 학교의
+            역할은 무엇인지 묻는 질문이 있었습니다. 이에 대해 자신이 무엇을 만들고 싶은지 알려면 많이 만들어봐야 하고,
+            학교가 그것을 계속 만들어볼 수 있는 하나의 핑계가 될 수 있다는 취지의 답변이 기억에 남았습니다. 학교가 무언가를
+            배우는 곳일 뿐 아니라, 비슷한 관심사를 가진 사람을 만나고 서로의 작업을 보면서 계속 만들 수 있게 하는 환경일 수
+            있다는 생각이 들었습니다.
+          </p>
+
+          <p>
+            웹으로 해보고 싶었던 작업을 실제로 만들고, 서로 발견한 기술과 작업을 공유하면서 각자의 결과물을 계속
+            발전시켜보고 싶습니다. 그 과정에서 하나의 개인 작업이 만들어질 수도 있고, 여러 작업이 하나의 시리즈로 이어질
+            수도 있습니다. 작업이 충분히 쌓인다면 이후에는 공동 웹이나 온라인 전시처럼 여러 사람의 작업을 함께 보여주는
+            방식도 생각해볼 수 있습니다.
+          </p>
+
+          <p>
+            무엇을 만들지는 열어두고 싶습니다. 같이 만들고, 서로 알려주고 배우면서 웹 작업을 계속할 수 있는 환경을
+            만들어보고 싶습니다. 함께 해줄 사람을 구합니다.
+          </p>
+        </div>
+
+        <aside class="article-footnotes" aria-label="각주">
+          <p>
+            1 사례로 <a href="https://www.instagram.com/p/De02tNREUAd/" target="_blank" rel="noopener">@notefolio의 웹 인터랙션 소개 게시물</a>과
+            <a href="https://www.instagram.com/reel/De-_GLyRrtB/" target="_blank" rel="noopener">@metamong.dev의 온라인 절 ‘산사’</a>를 소개한다.
+          </p>
+          <p>
+            2 강이룬, 「광주비엔날레와 아무렇게나 쓰는 도구」, <a href="https://lllounge-seoul.com/" target="_blank" rel="noopener">「라운지 서울」</a>,
+            2026.11.8. 발언은 필자의 현장 기록을 바탕으로 요약했다.
+          </p>
+        </aside>
+      </article>
+
+      <section class="letter-arrival" role="dialog" aria-label="편지 도착 안내" aria-hidden="true" aria-live="polite">
+        <div class="letter-arrival-group">
+          <div class="arrival-card">
+            <svg class="wavy-frame" viewBox="0 0 619 175" preserveAspectRatio="none" aria-hidden="true">
+              <path class="wavy-path"></path>
+            </svg>
+            <div class="arrival-copy">
+              <p><span id="letter-name"></span>님 앞으로 편지가</p>
+              <p>도착했습니다<span class="courier">.</span></p>
+            </div>
+          </div>
+          <button class="arrival-button" id="arrival-button" type="button">
+            <span class="submit-label">확인하기</span>
+          </button>
+        </div>
+      </section>
+    </section>
+
+    <section class="letter-stage" id="letter-stage" aria-label="도착한 편지" hidden>
+      <img class="letter-scene letter-scene--closed" src="./assets/letter-closed.png" alt="닫힌 편지 봉투" />
+      <img class="letter-scene letter-scene--opening" src="./assets/letter-opening.png" alt="봉투에서 편지가 나오는 모습" />
+      <img class="letter-scene letter-scene--open" src="./assets/letter-open.png" alt="펼쳐진 편지" />
+      <img class="letter-scene letter-scene--contact" src="./assets/letter-contact.png" alt="메일 보내기와 디엠 보내기 버튼이 있는 편지" />
+
+      <button class="envelope-button" id="envelope-button" type="button" aria-label="편지 열기">
+        <svg class="envelope-svg" viewBox="0 0 600 378" preserveAspectRatio="none" aria-hidden="true">
+          <rect class="envelope-line" x="2" y="2" width="596" height="374"></rect>
+          <path class="envelope-line" d="M2 52 L300 220 L598 52"></path>
+          <path class="envelope-line" d="M2 376 L205 185 L300 242 L395 185 L598 376"></path>
+        </svg>
+      </button>
+
+      <button class="letter-paper-button" id="letter-paper-button" type="button" aria-label="편지 내용 펼쳐보기"></button>
+      <a class="contact-link contact-link--email" href="mailto:K89099646@gmail.com" aria-label="김민지에게 메일 보내기"></a>
+      <a
+        class="contact-link contact-link--dm"
+        href="https://www.instagram.com/_rrij/"
+        target="_blank"
+        rel="noopener"
+        aria-label="Instagram에서 @_rrij에게 디엠 보내기"
+      ></a>
+
+      <article class="letter-paper" id="letter-paper">
+        <svg class="wavy-frame" viewBox="0 0 800 1320" preserveAspectRatio="none" aria-hidden="true">
+          <path class="wavy-path"></path>
+        </svg>
+        <div class="letter-copy">
+          <p>안녕하세요<span class="courier">!</span></p>
+          <p>
+            <span class="courier">11~12</span>월에는 <span class="courier">2~5</span>명 정도로 작게 시작해서, 같이 레퍼런스도 보고 직접 웹 작업도
+            해보면서 밀도 있게 진행하려고 해요<span class="courier">!</span>
+          </p>
+          <p>
+            그리고 <span class="courier">2027</span>년 <span class="courier">1~2</span>월쯤에는 그때까지 해본 것들을 바탕으로 사람을 조금 더 받아서
+            확장해보려고 합니다<span class="courier">.</span>
+          </p>
+          <p>
+            일주일에 한 번 정도 잠깐 시간을 내서 함께해보는 건 어떨까요<span class="courier">?</span> 웹 작업인 만큼 구성원들이 바쁜 시기에는
+            줌이나 구글미트로 만나면서 상황에 따라 유동적으로 진행하려고 합니다<span class="courier">.</span>
+          </p>
+          <p>함께 재미있는 작업을 만들어보고 싶은 마음을 담아<span class="courier">,</span> 김민지 드림</p>
+        </div>
+      </article>
+    </section>
+
+    <script>
+      const form = document.querySelector("#name-form");
+      const mobileExperience = document.querySelector(".mobile-experience");
+      const input = document.querySelector("#name-input");
+      const inputMirror = document.querySelector("#input-mirror");
+      const nameField = document.querySelector("#name-field");
+      const welcomeScreen = document.querySelector("#welcome-screen");
+      const thanksScreen = document.querySelector("#thanks-screen");
+      const printScreen = document.querySelector("#print-screen");
+      const printButton = document.querySelector("#print-button");
+      const paperReveal = document.querySelector("#paper-reveal");
+      const readContent = document.querySelector("#read-content");
+      const pdfDownload = document.querySelector("#pdf-download");
+      const articleReader = document.querySelector("#article-reader");
+      const letterArrival = document.querySelector(".letter-arrival");
+      const arrivalButton = document.querySelector("#arrival-button");
+      const letterStage = document.querySelector("#letter-stage");
+      const envelopeButton = document.querySelector("#envelope-button");
+      const letterPaperButton = document.querySelector("#letter-paper-button");
+      const letterName = document.querySelector("#letter-name");
+      const submittedName = document.querySelector("#submitted-name");
+
+      const hangulPattern = /[\u1100-\u11ff\u3130-\u318f\uac00-\ud7af]/;
+
+      function makeWavyFrame(svg) {
+        const { width, height } = svg.viewBox.baseVal;
+        const padding = 5;
+        const wavelength = 15;
+        const amplitude = 2.1;
+        const step = 1.5;
+        const points = [];
+
+        const addSegment = (length, pointAt) => {
+          for (let distance = 0; distance < length; distance += step) {
+            points.push(pointAt(distance));
+          }
+          points.push(pointAt(length));
+        };
+
+        const horizontal = width - padding * 2;
+        const vertical = height - padding * 2;
+        const wave = (distance) => Math.sin((distance / wavelength) * Math.PI * 2) * amplitude;
+
+        addSegment(horizontal, (distance) => [padding + distance, padding + wave(distance)]);
+        addSegment(vertical, (distance) => [width - padding + wave(distance), padding + distance]);
+        addSegment(horizontal, (distance) => [width - padding - distance, height - padding + wave(distance)]);
+        addSegment(vertical, (distance) => [padding + wave(distance), height - padding - distance]);
+
+        const path = points
+          .map(([x, y], index) => `${index === 0 ? "M" : "L"}${x.toFixed(2)} ${y.toFixed(2)}`)
+          .join(" ");
+
+        svg.querySelector(".wavy-path").setAttribute("d", `${path} Z`);
+      }
+
+      document.querySelectorAll(".wavy-frame").forEach(makeWavyFrame);
+
+      function appendScriptAwareText(target, value) {
+        target.replaceChildren();
+
+        let run = "";
+        let runIsHangul = null;
+
+        const flushRun = () => {
+          if (!run) return;
+
+          if (runIsHangul) {
+            target.append(document.createTextNode(run));
+          } else {
+            const span = document.createElement("span");
+            span.className = "courier";
+            span.textContent = run;
+            target.append(span);
+          }
+
+          run = "";
+        };
+
+        for (const character of value) {
+          const isHangul = hangulPattern.test(character);
+
+          if (runIsHangul === null || isHangul === runIsHangul) {
+            run += character;
+          } else {
+            flushRun();
+            run += character;
+          }
+
+          runIsHangul = isHangul;
+        }
+
+        flushRun();
+      }
+
+      function rememberName(name) {
+        try {
+          window.sessionStorage.setItem("invitation-name", name);
+        } catch (error) {
+          // The page still works when storage is unavailable.
+        }
+      }
+
+      function rememberedName() {
+        try {
+          return window.sessionStorage.getItem("invitation-name") || "OO";
+        } catch (error) {
+          return "OO";
+        }
+      }
+
+      function setLetterName(name) {
+        appendScriptAwareText(letterName, name || "OO");
+      }
+
+      let arrivalTimer = null;
+      let arrivalHasShown = false;
+      let savedArticleScrollTop = 0;
+      let articleTouching = false;
+
+      function hideLetterArrival() {
+        window.clearTimeout(arrivalTimer);
+        letterArrival.classList.remove("is-visible");
+        letterArrival.setAttribute("aria-hidden", "true");
+      }
+
+      function showLetterArrival() {
+        if (arrivalHasShown || articleReader.hidden || articleTouching) return;
+        arrivalHasShown = true;
+        letterArrival.setAttribute("aria-hidden", "false");
+        letterArrival.classList.add("is-visible");
+
+        window.setTimeout(() => {
+          arrivalButton.focus({ preventScroll: true });
+        }, 620);
+      }
+
+      function distanceFromArticleEnd() {
+        return articleReader.scrollHeight - articleReader.scrollTop - articleReader.clientHeight;
+      }
+
+      function checkArticleEnd() {
+        window.clearTimeout(arrivalTimer);
+
+        if (arrivalHasShown || articleReader.hidden) return;
+
+        const endMargin = Math.max(8, articleReader.clientHeight * 0.01);
+
+        if (distanceFromArticleEnd() <= endMargin) {
+          arrivalTimer = window.setTimeout(() => {
+            if (distanceFromArticleEnd() <= endMargin) showLetterArrival();
+          }, 1500);
+        }
+      }
+
+      function prepareArticleReader(scrollPosition = 0, suppressArrival = false) {
+        arrivalHasShown = suppressArrival;
+        hideLetterArrival();
+        articleReader.scrollTop = scrollPosition;
+        window.requestAnimationFrame(checkArticleEnd);
+      }
+
+      articleReader.addEventListener("scroll", checkArticleEnd, { passive: true });
+      articleReader.addEventListener(
+        "touchstart",
+        () => {
+          articleTouching = true;
+          window.clearTimeout(arrivalTimer);
+        },
+        { passive: true }
+      );
+      articleReader.addEventListener(
+        "touchend",
+        () => {
+          articleTouching = false;
+          checkArticleEnd();
+        },
+        { passive: true }
+      );
+      articleReader.addEventListener(
+        "touchcancel",
+        () => {
+          articleTouching = false;
+          checkArticleEnd();
+        },
+        { passive: true }
+      );
+
+      function restoreExperienceState(state = window.history.state) {
+        setLetterName(rememberedName());
+
+        const hash = window.location.hash;
+
+        if (!["#printed", "#article", "#letter"].includes(hash)) return;
+
+        hideLetterArrival();
+        mobileExperience.hidden = false;
+        articleReader.hidden = true;
+        letterStage.hidden = true;
+        letterStage.classList.remove("is-opening", "is-revealed", "is-contact");
+        envelopeButton.disabled = false;
+        letterPaperButton.disabled = false;
+
+        if (hash === "#printed") {
+          document.querySelectorAll(".screen").forEach((screen) => screen.classList.remove("is-visible"));
+          printScreen.classList.remove("is-printing");
+          printScreen.classList.add("is-visible", "is-complete");
+          printScreen.setAttribute("aria-busy", "false");
+          printButton.disabled = true;
+          return;
+        }
+
+        if (hash === "#article") {
+          mobileExperience.hidden = true;
+          articleReader.hidden = false;
+          savedArticleScrollTop = state?.scrollTop ?? savedArticleScrollTop;
+          prepareArticleReader(savedArticleScrollTop, false);
+          return;
+        }
+
+        if (hash === "#letter") {
+          mobileExperience.hidden = true;
+          letterStage.hidden = false;
+          letterStage.classList.add("is-revealed", "is-contact");
+          envelopeButton.disabled = true;
+          letterPaperButton.disabled = true;
+        }
+      }
+
+      restoreExperienceState();
+      window.addEventListener("popstate", (event) => restoreExperienceState(event.state));
+
+      input.addEventListener("input", () => {
+        appendScriptAwareText(inputMirror, input.value);
+        nameField.classList.remove("is-invalid");
+        input.removeAttribute("aria-invalid");
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const name = input.value.trim();
+
+        if (!name) {
+          input.setAttribute("aria-invalid", "true");
+          nameField.classList.remove("is-invalid");
+          void nameField.offsetWidth;
+          nameField.classList.add("is-invalid");
+          input.focus();
+          return;
+        }
+
+        appendScriptAwareText(submittedName, name);
+        setLetterName(name);
+        rememberName(name);
+        welcomeScreen.classList.remove("is-visible");
+        thanksScreen.classList.add("is-visible");
+
+        window.setTimeout(() => {
+          thanksScreen.classList.remove("is-visible");
+          printScreen.classList.add("is-visible");
+        }, 2200);
+      });
+
+      function completePrinting() {
+        if (printScreen.classList.contains("is-complete")) return;
+        printScreen.classList.remove("is-printing");
+        printScreen.classList.add("is-complete");
+        printScreen.setAttribute("aria-busy", "false");
+      }
+
+      printButton.addEventListener("click", () => {
+        if (printScreen.classList.contains("is-printing") || printScreen.classList.contains("is-complete")) {
+          return;
+        }
+
+        printButton.disabled = true;
+        printScreen.setAttribute("aria-busy", "true");
+        printScreen.classList.add("is-printing");
+
+        paperReveal.addEventListener("animationend", completePrinting, { once: true });
+        window.setTimeout(completePrinting, 5500);
+      });
+
+      readContent.addEventListener("click", () => {
+        window.history.replaceState({ view: "printed" }, "", "#printed");
+        window.history.pushState({ view: "article", scrollTop: 0, alertSeen: false }, "", "#article");
+        mobileExperience.hidden = true;
+        articleReader.hidden = false;
+        prepareArticleReader();
+      });
+
+      arrivalButton.addEventListener("click", () => {
+        savedArticleScrollTop = articleReader.scrollTop;
+        window.history.replaceState(
+          { view: "article", scrollTop: savedArticleScrollTop, alertSeen: false },
+          "",
+          "#article"
+        );
+        window.history.pushState({ view: "letter" }, "", "#letter");
+        hideLetterArrival();
+        articleReader.hidden = true;
+        letterStage.hidden = false;
+        letterStage.classList.remove("is-opening", "is-revealed", "is-contact");
+        envelopeButton.disabled = false;
+        letterPaperButton.disabled = false;
+      });
+
+      envelopeButton.addEventListener("click", () => {
+        if (letterStage.classList.contains("is-opening") || letterStage.classList.contains("is-revealed")) {
+          return;
+        }
+
+        envelopeButton.disabled = true;
+        letterStage.classList.add("is-opening");
+        letterPaperButton.disabled = false;
+      });
+
+      letterPaperButton.addEventListener("click", () => {
+        if (!letterStage.classList.contains("is-opening")) return;
+
+        letterPaperButton.disabled = true;
+        letterStage.classList.remove("is-opening");
+        letterStage.classList.add("is-revealed", "is-contact");
+      });
+
+      pdfDownload.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        const pdfUrl = pdfDownload.href;
+        const fileName = pdfDownload.getAttribute("download");
+        window.history.replaceState(null, "", "#printed");
+
+        try {
+          const response = await fetch(pdfUrl);
+          if (!response.ok) throw new Error("PDF download failed");
+
+          const pdfBlob = await response.blob();
+          const objectUrl = URL.createObjectURL(pdfBlob);
+          const temporaryLink = document.createElement("a");
+          temporaryLink.href = objectUrl;
+          temporaryLink.download = fileName;
+          temporaryLink.style.display = "none";
+          document.body.append(temporaryLink);
+          temporaryLink.click();
+          temporaryLink.remove();
+
+          window.setTimeout(() => URL.revokeObjectURL(objectUrl), 5000);
+        } catch (error) {
+          const fallbackLink = document.createElement("a");
+          fallbackLink.href = pdfUrl;
+          fallbackLink.download = fileName;
+          fallbackLink.target = "_blank";
+          fallbackLink.rel = "noopener";
+          fallbackLink.style.display = "none";
+          document.body.append(fallbackLink);
+          fallbackLink.click();
+          fallbackLink.remove();
+        }
+      });
+    </script>
+  </body>
+</html>
