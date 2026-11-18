@@ -195,7 +195,8 @@
         color: transparent;
         caret-color: var(--ink);
         font-family: "Onul Gitnarae Web", serif;
-        font-size: var(--ko-card-size);
+        /* Prevent iOS from zooming the page when this invisible input is focused. */
+        font-size: max(16px, var(--ko-card-size));
         line-height: 1;
       }
 
